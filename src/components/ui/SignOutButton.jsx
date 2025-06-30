@@ -1,4 +1,8 @@
-import FirebaseProvider from "./firebase/FirebaseProvider";
+import React from "react";
+import { LogOut } from "lucide-react";
+import { useFirebase } from "../firebase/FirebaseProvider";
+import { signOut } from "firebase/auth";
+import Button from "./Button";
 
 const SignOutButton = () => {
   const { auth } = useFirebase();

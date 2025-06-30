@@ -1,26 +1,15 @@
-
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
   onAuthStateChanged,
   signInWithCustomToken,
   signInAnonymously,
-  signOut,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { firebaseConfig } from "./firebaseConfig";
 
-import {
-  getFirestore,
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  doc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
-import { useEffect, useState } from "react";
-
+const FirebaseContext = createContext(null);
 
 const FirebaseProvider = ({ children }) => {
   const [firebaseApp, setFirebaseApp] = useState(null);
@@ -32,15 +21,6 @@ const FirebaseProvider = ({ children }) => {
   useEffect(() => {
     const initializeFirebase = async () => {
       try {
-        const firebaseConfig = {
-          apiKey: "AIzaSyAD_TqXyZZHwk4cN3FDIcpQ33hfdbHdrps",
-          authDomain: "petsfolio-2204f.firebaseapp.com",
-          projectId: "petsfolio-2204f",
-          storageBucket: "petsfolio-2204f.appspot.com",
-          messagingSenderId: "941943976685",
-          appId: "1:941943976685:web:07c5d772412dff182812e4",
-        };
-
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const firestore = getFirestore(app);
@@ -105,5 +85,12 @@ const FirebaseProvider = ({ children }) => {
   );
 };
 
+const useFirebase = () => {
+  const context = useContext(FirebaseContext);
+  if (!context) {
+    throw new Error("useFirebase must be used within a FirebaseProvider");
+  }
+  return context;
+};
 
-export default FirebaseProvider;
+export { FirebaseProvider, useFirebase };
