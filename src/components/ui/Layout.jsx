@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
-  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [currentPage, setCurrentPage] = useState('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const toggleMobileSidebar = () => {
@@ -10,18 +10,18 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
       <Sidebar
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         isMobileSidebarOpen={isMobileSidebarOpen}
         toggleMobileSidebar={toggleMobileSidebar}
       />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-y-auto lg:ml-64 bg-gray-50">
-          {children}
-        </main>
+
+      {/* Main content */}
+      <div className="flex-1 bg-gray-100 overflow-x-hidden">
+        <main className="p-4">{children}</main>
       </div>
     </div>
   );

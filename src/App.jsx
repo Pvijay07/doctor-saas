@@ -1,48 +1,34 @@
-import React, { useState } from "react";
-import { FirebaseProvider } from "../src/components/firebase/FirebaseProvider";
-import Sidebar from "../src/components/ui/Sidebar";
-import Dashboard from "../src/components/pages/Dashboard";
-import PatientManagement from "../src/components/pages/PatientManagement";
-import AppointmentScheduling from "../src/components/pages/AppointmentScheduling";
-import MedicalRecords from "../src/components/pages/MedicalRecords";
-import Billing from "../src/components/pages/Billing";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-export default function App() {
-  const [currentPage, setCurrentPage] = useState("dashboard");
+import Layout from "./components/ui/Layout";
+import Dashboard from "./components/pages/Dashboard";
+import EHRDashboard from "./components/pages/EHRDashboard";
+import AppointmentScheduler from "./components/pages/AppointmentScheduler";
+import StaffManagement from "./components/pages/StaffManagement";
+import BillingTools from "./components/pages/BillingTools";
+import ClinicalTools from "./components/pages/ClinicalTools";
+import PatientManagement from "./components/pages/PatientManagement";
+import RoomEquipmentScheduling from "./components/pages/RoomEquipmentScheduling";
 
+const App = () => {
   return (
-    
-    <FirebaseProvider>
-      <div className="min-h-screen bg-gray-100 flex font-inter">
-        {/* Tailwind CSS CDN */}
-        <script src="https://cdn.tailwindcss.com"></script>
-        {/* Google Fonts CDN */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        {/* Inline styles for font-family */}
-        <style>
-          {`
-          body { font-family: 'Inter', sans-serif; }
-          .font-inter { font-family: 'Inter', sans-serif; }
-          `}
-        </style>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/patients" element={<PatientManagement />} />
+          <Route path="/ehr" element={<EHRDashboard />} />
+          <Route path="/appointments" element={<AppointmentScheduler />} />
+          <Route path="/clinical" element={<ClinicalTools />} />
+          <Route path="/billing" element={<BillingTools />} />
+          <Route path="/staff" element={<StaffManagement />} />
+          <Route path="/equipments" element={<RoomEquipmentScheduling />} />
 
-        {/* Sidebar */}
-        <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-
-        {/* Main Content Area */}
-        <main className="flex-1 p-6 overflow-auto">
-          <div className="max-w-7xl mx-auto">
-            {currentPage === "dashboard" && <Dashboard />}
-            {currentPage === "patients" && <PatientManagement />}
-            {currentPage === "appointments" && <AppointmentScheduling />}
-            {currentPage === "medical-records" && <MedicalRecords />}
-            {currentPage === "billing" && <Billing />}
-          </div>
-        </main>
-      </div>
-    </FirebaseProvider>
+        </Routes>
+      </Layout>
+    </Router>
   );
-}
+};
+
+export default App;
